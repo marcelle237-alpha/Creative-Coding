@@ -31,6 +31,7 @@ das „Unmögliche“, das durch Denken möglich wird
 Orange wurde gewählt, weil es für Kreativität, Wärme und Transformation steht — ein starker Kontrast zum ruhigen Blau.
 
 🔹 Farbpsychologie
+
 🔵 Blau
 steht für Intelligenz, Klarheit und Tiefe
 wirkt ruhig und gedanklich
