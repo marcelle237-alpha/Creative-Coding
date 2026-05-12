@@ -1,0 +1,818 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Imagine to Create</title>
+  <style>
+    :root {
+      --blue: #4d93ff;
+      --blue-soft: #28a5ff;
+      --orange: #ff842c;
+      --orange-soft: #ffb000;
+      --ink: #f7f9ff;
+      --muted: #aeb7c6;
+      --bg: #020409;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      background: #ffffff;
+      font-family: Helvetica, Arial, sans-serif;
+      color: var(--ink);
+    }
+
+    .stage {
+      position: relative;
+      width: 800px;
+      height: 500px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 23% 55%, rgba(31, 102, 229, 0.28), transparent 34%),
+        radial-gradient(circle at 78% 55%, rgba(255, 132, 44, 0.24), transparent 34%),
+        linear-gradient(90deg, rgba(2, 7, 18, 0.97), #020409 47%, rgba(20, 8, 2, 0.97)),
+        var(--bg);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow:
+        0 24px 70px rgba(0, 0, 0, 0.45),
+        inset 0 0 64px rgba(255, 255, 255, 0.035);
+      isolation: isolate;
+    }
+
+    .stage::before,
+    .stage::after {
+      content: "";
+      position: absolute;
+      top: 42px;
+      width: 86px;
+      height: 1px;
+      opacity: 0.7;
+      display: none;
+    }
+
+    .stage::before {
+      left: 18px;
+      background: linear-gradient(90deg, var(--blue), transparent);
+      box-shadow: -1px 0 0 3px var(--blue);
+    }
+
+    .stage::after {
+      right: 18px;
+      background: linear-gradient(270deg, var(--orange), transparent);
+      box-shadow: 1px 0 0 3px var(--orange);
+    }
+
+    .quote {
+      position: absolute;
+      top: 18px;
+      left: 50%;
+      width: 640px;
+      margin: 0;
+      padding: 8px 18px 10px;
+      transform: translateX(-50%);
+      border-radius: 2px;
+      background: transparent;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0;
+      color: var(--ink);
+      text-shadow: 0 0 12px rgba(255, 255, 255, 0.24);
+      box-shadow: none;
+      animation: quoteFloat 4s ease-in-out infinite;
+      overflow: hidden;
+      z-index: 4;
+    }
+
+    .quote::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(80, 180, 255, 0.22), transparent);
+      transform: translateX(-110%);
+      animation: logicScan 4.8s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    .quote::after {
+      content: "lambda  sum  XOR  0101  HALT?";
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 5px;
+      color: rgba(117, 194, 255, 0.2);
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.26em;
+      text-align: center;
+      animation: codePulse 2.8s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    .quote-text,
+    .author {
+      position: relative;
+      z-index: 1;
+    }
+
+    .author {
+      display: block;
+      margin-top: 7px;
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.84);
+      text-shadow: none;
+    }
+
+    .divider {
+      position: absolute;
+      left: 50%;
+      top: 73px;
+      width: 1px;
+      height: 377px;
+      background: linear-gradient(transparent, rgba(255, 255, 255, 0.18), transparent);
+      z-index: 1;
+    }
+
+    .labels {
+      position: absolute;
+      top: 93px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    .label {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      transition: opacity 0.45s ease, transform 0.45s ease, visibility 0.45s ease;
+    }
+
+    .label span {
+      display: block;
+      width: 44px;
+      height: 1px;
+      margin-top: 8px;
+      box-shadow: 49px 0 0 2px currentColor;
+      background: currentColor;
+    }
+
+    .start-label {
+      color: var(--blue);
+      padding-left: 162px;
+    }
+
+    .end-label {
+      color: var(--orange);
+      padding-left: 184px;
+    }
+
+    .arrow {
+      position: absolute;
+      left: 371px;
+      top: 254px;
+      width: 52px;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.68);
+      z-index: 5;
+    }
+
+    .cipher-trail {
+      position: absolute;
+      left: 354px;
+      top: 224px;
+      width: 118px;
+      height: 64px;
+      color: rgba(255, 229, 105, 0.8);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 5;
+    }
+
+    .cipher-trail span {
+      position: absolute;
+      left: 0;
+      top: calc(var(--row) * 18px);
+      opacity: 0;
+    }
+
+    .arrow::before,
+    .arrow::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      width: 13px;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.78);
+      transform-origin: right center;
+    }
+
+    .arrow::before {
+      transform: rotate(45deg);
+    }
+
+    .arrow::after {
+      transform: rotate(-45deg);
+    }
+
+    .side {
+      position: absolute;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      z-index: 2;
+    }
+
+    .left {
+      left: 0;
+    }
+
+    .right {
+      right: 0;
+    }
+
+    .caption {
+      position: absolute;
+      bottom: 82px;
+      width: 100%;
+      text-align: center;
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: 0;
+      transition: opacity 0.45s ease, transform 0.45s ease, visibility 0.45s ease;
+    }
+
+    .caption.blue {
+      color: var(--blue);
+    }
+
+    .caption.orange {
+      color: var(--orange);
+    }
+
+    .mouse-note {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 29px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: rgba(255, 255, 255, 0.48);
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      z-index: 6;
+      pointer-events: none;
+      display: none;
+    }
+
+    .mouse {
+      width: 15px;
+      height: 23px;
+      border: 1px solid rgba(255, 255, 255, 0.48);
+      border-radius: 9px;
+      position: relative;
+    }
+
+    .mouse::before {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: 3px;
+      width: 1px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.48);
+      border-radius: 1px;
+      animation: wheel 1.5s infinite;
+    }
+
+    .circle-button {
+      position: absolute;
+      left: 74px;
+      top: 144px;
+      width: 240px;
+      height: 240px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(8, 17, 43, 0.28);
+      cursor: pointer;
+      filter:
+        drop-shadow(0 0 19px rgba(31, 102, 229, 0.44));
+      z-index: 7;
+      transition: transform 0.7s ease, opacity 0.55s ease, filter 0.55s ease, visibility 0.55s ease;
+      animation: breathe 2.7s ease-in-out infinite;
+    }
+
+    .circle-button::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 2px solid rgba(100, 150, 255, 0.9);
+      border-radius: 50%;
+      box-shadow:
+        0 0 7px rgba(40, 165, 255, 0.8),
+        0 0 22px rgba(31, 102, 229, 0.5),
+        inset 0 0 18px rgba(31, 102, 229, 0.24);
+      z-index: 2;
+    }
+
+    .circle-button::after {
+      content: "";
+      position: absolute;
+      inset: -72px;
+      border-radius: 50%;
+      background-image:
+        radial-gradient(circle, rgba(31, 102, 229, 0.82) 0 1px, transparent 1.6px),
+        radial-gradient(circle, rgba(40, 165, 255, 0.58) 0 1px, transparent 1.5px);
+      background-size: 19px 17px, 31px 23px;
+      mask-image: radial-gradient(circle, transparent 30%, black 41%, black 64%, transparent 77%);
+      opacity: 0.9;
+      animation: drift 8s linear infinite;
+      z-index: -1;
+    }
+
+    .scribble-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      opacity: 0.9;
+      z-index: 1;
+    }
+
+    .turing-symbols {
+      position: absolute;
+      left: 48px;
+      top: 128px;
+      width: 296px;
+      height: 296px;
+      pointer-events: none;
+      z-index: 8;
+      transition: opacity 0.45s ease, visibility 0.45s ease, transform 0.45s ease;
+    }
+
+    .turing-symbols span {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      color: rgba(140, 194, 255, 0.68);
+      font-size: var(--size);
+      font-weight: 700;
+      text-shadow: 0 0 12px rgba(31, 102, 229, 0.22);
+      animation: symbolFloat var(--speed) ease-in-out infinite;
+      animation-delay: var(--delay);
+    }
+
+    .glow-floor {
+      position: absolute;
+      left: 135px;
+      top: 378px;
+      width: 116px;
+      height: 14px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(59, 107, 255, 0.62), transparent 72%);
+      filter: blur(4px);
+      z-index: 1;
+      transition: opacity 0.45s ease, visibility 0.45s ease;
+    }
+
+    .cube-wrap {
+      position: absolute;
+      right: 66px;
+      top: 170px;
+      width: 210px;
+      height: 210px;
+      perspective: 700px;
+      opacity: 0;
+      transform: scale(0.5) rotate(-8deg);
+      transition: opacity 0.8s ease 0.18s, transform 0.9s cubic-bezier(0.2, 0.9, 0.2, 1) 0.18s;
+      z-index: 6;
+    }
+
+    .cube-glow {
+      position: absolute;
+      inset: -64px;
+      background-image:
+        radial-gradient(circle, rgba(255, 100, 14, 0.95) 0 1px, transparent 1.5px),
+        radial-gradient(circle, rgba(255, 188, 52, 0.65) 0 1px, transparent 1.7px);
+      background-size: 18px 16px, 29px 25px;
+      mask-image: radial-gradient(circle, transparent 28%, black 40%, black 68%, transparent 80%);
+      opacity: 0.72;
+      animation: drift 7s linear infinite reverse;
+    }
+
+    .cube {
+      position: absolute;
+      left: 6px;
+      top: 6px;
+      width: 198px;
+      height: 198px;
+      filter:
+        drop-shadow(0 0 10px rgba(233, 95, 19, 0.62))
+        drop-shadow(0 0 26px rgba(255, 112, 25, 0.36));
+      animation: cubeFloat 3.5s ease-in-out infinite;
+    }
+
+    .cube-code {
+      position: absolute;
+      left: 38px;
+      top: 58px;
+      width: 135px;
+      color: rgba(255, 248, 158, 0.46);
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      line-height: 1.45;
+      text-align: center;
+      text-shadow: 0 0 8px rgba(255, 160, 70, 0.48);
+      pointer-events: none;
+      opacity: 0.9;
+      animation: cubeCode 2.5s steps(2, end) infinite;
+    }
+
+    .philosophy-mark {
+      position: absolute;
+      right: 35px;
+      top: 115px;
+      color: rgba(233, 95, 19, 0.42);
+      font-size: 36px;
+      font-weight: 700;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(10px);
+      z-index: 4;
+    }
+
+    .cube-floor {
+      position: absolute;
+      left: 43px;
+      top: 178px;
+      width: 132px;
+      height: 19px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(233, 95, 19, 0.35), transparent 74%);
+      filter: blur(6px);
+    }
+
+    .stage.transforming .circle-button,
+    .stage.transformed .circle-button {
+      opacity: 0;
+      transform: scale(0.65);
+      filter: drop-shadow(0 0 11px rgba(233, 95, 19, 0.28));
+      visibility: hidden;
+      pointer-events: none;
+      animation-play-state: paused;
+    }
+
+    .stage.transformed .cube-wrap {
+      opacity: 1;
+      transform: scale(1) rotate(0);
+    }
+
+    .stage.transforming .arrow {
+      animation: arrowExit 1.15s ease-in forwards;
+    }
+
+    .stage.transforming .cipher-trail {
+      opacity: 1;
+    }
+
+    .stage.transforming .cipher-trail span {
+      animation: cipherMove 1.15s ease-in forwards;
+      animation-delay: calc(var(--row) * 0.07s);
+    }
+
+    .stage.transformed .arrow {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .stage.transforming .start-label,
+    .stage.transforming .caption.blue,
+    .stage.transforming .glow-floor,
+    .stage.transforming .turing-symbols,
+    .stage.transformed .start-label,
+    .stage.transformed .caption.blue,
+    .stage.transformed .glow-floor,
+    .stage.transformed .turing-symbols {
+      opacity: 0;
+      transform: translateY(8px);
+      visibility: hidden;
+    }
+
+    .stage:not(.transformed) .end-label,
+    .stage:not(.transformed) .caption.orange {
+      opacity: 0;
+      transform: translateY(8px);
+      visibility: hidden;
+    }
+
+    .stage.transformed .end-label,
+    .stage.transformed .caption.orange {
+      opacity: 1;
+      visibility: visible;
+      animation: revealText 0.7s ease 0.45s both;
+    }
+
+    .stage.transformed .philosophy-mark {
+      animation: questionRise 3.2s ease-in-out infinite;
+    }
+
+    .reset {
+      position: absolute;
+      right: 18px;
+      bottom: 17px;
+      border: 1px solid rgba(255, 132, 44, 0.32);
+      background: rgba(255, 132, 44, 0.08);
+      color: rgba(255, 198, 128, 0.82);
+      font: 700 8px Helvetica, Arial, sans-serif;
+      letter-spacing: 0.08em;
+      padding: 7px 10px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      z-index: 8;
+    }
+
+    .stage.transformed .reset {
+      opacity: 1;
+    }
+
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.035); }
+    }
+
+    @keyframes drift {
+      from { transform: rotate(0deg) scale(1); }
+      to { transform: rotate(360deg) scale(1.04); }
+    }
+
+    @keyframes symbolFloat {
+      0%, 100% {
+        opacity: 0.38;
+        transform: translateY(0) rotate(0deg);
+      }
+
+      50% {
+        opacity: 0.82;
+        transform: translateY(-8px) rotate(4deg);
+      }
+    }
+
+    @keyframes cipherMove {
+      0% {
+        opacity: 0;
+        transform: translateX(-18px);
+      }
+
+      34% {
+        opacity: 0.85;
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateX(116px);
+      }
+    }
+
+    @keyframes cubeFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-7px); }
+    }
+
+    @keyframes wheel {
+      0%, 100% { opacity: 0.25; transform: translateY(0); }
+      45% { opacity: 0.9; transform: translateY(5px); }
+    }
+
+    @keyframes arrowExit {
+      0% {
+        opacity: 0.75;
+        transform: translateX(0);
+      }
+
+      55% {
+        opacity: 1;
+        transform: translateX(34px);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateX(92px);
+      }
+    }
+
+    @keyframes revealText {
+      from { opacity: 0.25; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes cubeCode {
+      0%, 100% { opacity: 0.38; }
+      50% { opacity: 0.92; }
+    }
+
+    @keyframes questionRise {
+      0%, 100% {
+        opacity: 0.18;
+        transform: translateY(12px) rotate(-4deg);
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: translateY(-5px) rotate(4deg);
+      }
+    }
+
+    @keyframes quoteFloat {
+      0%, 100% {
+        transform: translateX(-50%) translateY(0);
+        text-shadow: 0 0 12px rgba(255, 255, 255, 0.24);
+      }
+
+      50% {
+        transform: translateX(-50%) translateY(2px);
+        text-shadow: 0 0 16px rgba(117, 194, 255, 0.34);
+      }
+    }
+
+    @keyframes logicScan {
+      0%, 28% { transform: translateX(-110%); }
+      54%, 100% { transform: translateX(110%); }
+    }
+
+    @keyframes codePulse {
+      0%, 100% { opacity: 0.18; }
+      50% { opacity: 0.42; }
+    }
+  </style>
+</head>
+<body>
+  <main class="stage" aria-label="Interactive Alan Turing quote transformation">
+    <h1 class="quote">
+      <span class="quote-text">Those who can imagine anything , can create the impossible</span>
+      <span class="author">by Alan Turing</span>
+    </h1>
+
+    <div class="divider" aria-hidden="true"></div>
+    <div class="arrow" aria-hidden="true"></div>
+    <div class="cipher-trail" aria-hidden="true">
+      <span style="--row: 0">1011 XOR</span>
+      <span style="--row: 1">ENIGMA</span>
+      <span style="--row: 2">0 1 0 1</span>
+    </div>
+
+    <section class="side left" aria-label="Start side">
+      <div class="turing-symbols" aria-hidden="true">
+        <span style="--x: 26px; --y: 72px; --size: 15px; --speed: 3.1s; --delay: -0.4s;">&pi;</span>
+        <span style="--x: 198px; --y: 45px; --size: 17px; --speed: 3.5s; --delay: -1s;">&sum;</span>
+        <span style="--x: 236px; --y: 162px; --size: 16px; --speed: 2.8s; --delay: -0.8s;">&lambda;</span>
+        <span style="--x: 58px; --y: 214px; --size: 15px; --speed: 3.8s; --delay: -1.5s;">&forall;</span>
+        <span style="--x: 178px; --y: 230px; --size: 16px; --speed: 3.2s; --delay: -2s;">&exist;</span>
+        <span style="--x: 120px; --y: 20px; --size: 14px; --speed: 2.9s; --delay: -0.2s;">XOR</span>
+        <span style="--x: 118px; --y: 264px; --size: 13px; --speed: 3.4s; --delay: -1.2s;">HALT?</span>
+      </div>
+      <button class="circle-button" type="button" aria-label="Click to transform circle into cube">
+        <canvas class="scribble-canvas" width="300" height="300" aria-hidden="true"></canvas>
+      </button>
+      <div class="glow-floor" aria-hidden="true"></div>
+      <div class="caption blue">If you can imagine it</div>
+    </section>
+
+    <section class="side right" aria-label="End side">
+      <div class="cube-wrap" aria-hidden="true">
+        <div class="cube-glow"></div>
+        <svg class="cube" viewBox="0 0 210 210" role="img" aria-label="Glowing orange cube">
+          <defs>
+            <linearGradient id="topGradient" x1="35" y1="25" x2="175" y2="90" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#fff36a"/>
+              <stop offset="0.36" stop-color="#ff9a25"/>
+              <stop offset="1" stop-color="#d43b08"/>
+            </linearGradient>
+            <linearGradient id="leftGradient" x1="30" y1="70" x2="110" y2="190" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#ff8d24"/>
+              <stop offset="1" stop-color="#b91409"/>
+            </linearGradient>
+            <linearGradient id="rightGradient" x1="110" y1="80" x2="190" y2="180" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#ffbb2f"/>
+              <stop offset="1" stop-color="#d34808"/>
+            </linearGradient>
+            <filter id="hotGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="2.3" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <polygon points="36,70 112,36 188,70 112,106" fill="url(#topGradient)" opacity="0.95"/>
+          <polygon points="36,70 112,106 112,182 39,144" fill="url(#leftGradient)" opacity="0.94"/>
+          <polygon points="112,106 188,70 185,144 112,182" fill="url(#rightGradient)" opacity="0.96"/>
+          <path d="M36 70 L112 36 L188 70 L185 144 L112 182 L39 144 Z M36 70 L112 106 L188 70 M112 106 L112 182"
+                fill="none" stroke="#fff06a" stroke-width="2.5" stroke-linejoin="round" filter="url(#hotGlow)"/>
+          <path d="M42 75 L112 42 L181 75" fill="none" stroke="#fff9a2" stroke-width="1" opacity="0.8"/>
+        </svg>
+        <div class="cube-code" aria-hidden="true">
+          0101<br>
+          IF TRUE<br>
+          DECIPHER
+        </div>
+        <div class="cube-floor"></div>
+      </div>
+      <div class="philosophy-mark" aria-hidden="true">?</div>
+      <div class="caption orange">Then you can create it</div>
+    </section>
+
+    <div class="mouse-note" aria-hidden="true">
+      <span class="mouse"></span>
+      <span>CLICK TO TRANSFORM</span>
+    </div>
+
+    <button class="reset" type="button" aria-label="Reset transformation">RESET</button>
+  </main>
+
+  <script>
+    const stage = document.querySelector(".stage");
+    const circle = document.querySelector(".circle-button");
+    const reset = document.querySelector(".reset");
+    const scribbleCanvas = document.querySelector(".scribble-canvas");
+    const scribble = scribbleCanvas.getContext("2d");
+    let lastScribbleFrame = 0;
+    let revealTimer;
+
+    circle.addEventListener("click", () => {
+      if (stage.classList.contains("transforming") || stage.classList.contains("transformed")) {
+        return;
+      }
+
+      stage.classList.add("transforming");
+      revealTimer = window.setTimeout(() => {
+        stage.classList.add("transformed");
+      }, 1250);
+    });
+
+    reset.addEventListener("click", () => {
+      window.clearTimeout(revealTimer);
+      stage.classList.remove("transforming", "transformed");
+      circle.focus();
+    });
+
+    function drawScribbleCircle(time = 0) {
+      requestAnimationFrame(drawScribbleCircle);
+
+      if (time - lastScribbleFrame < 70) {
+        return;
+      }
+
+      lastScribbleFrame = time;
+      scribble.clearRect(0, 0, 300, 300);
+      scribble.save();
+      scribble.translate(150, 150);
+      scribble.beginPath();
+      scribble.arc(0, 0, 148, 0, Math.PI * 2);
+      scribble.clip();
+
+      const glow = scribble.createRadialGradient(0, 0, 18, 0, 0, 148);
+      glow.addColorStop(0, "rgba(8, 17, 43, 0.94)");
+      glow.addColorStop(0.7, "rgba(8, 17, 43, 0.88)");
+      glow.addColorStop(1, "rgba(75, 145, 255, 0.3)");
+      scribble.fillStyle = glow;
+      scribble.fillRect(-150, -150, 300, 300);
+
+      scribble.lineWidth = 0.8;
+      scribble.strokeStyle = "rgba(100, 150, 255, 0.2)";
+      for (let i = 0; i < 400; i += 1) {
+        const angle1 = Math.random() * Math.PI * 2;
+        const angle2 = Math.random() * Math.PI * 2;
+        const r1 = Math.random() * 150;
+        const r2 = Math.random() * 150;
+        scribble.beginPath();
+        scribble.moveTo(Math.cos(angle1) * r1, Math.sin(angle1) * r1);
+        scribble.lineTo(Math.cos(angle2) * r2, Math.sin(angle2) * r2);
+        scribble.stroke();
+      }
+
+      scribble.restore();
+    }
+
+    drawScribbleCircle();
+  </script>
+</body>
+</html>
