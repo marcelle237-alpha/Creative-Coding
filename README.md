@@ -1,57 +1,57 @@
-Creative Coding: Alan Turing Visualization
+# Creative Coding – Alan Turing Visualization
 
-🔹 Projektbeschreibung
-Dieses Projekt ist eine interaktive p5.js‑Visualisierung, inspiriert vom Zitat von Alan Turing:
-“Those who can imagine anything, can create the impossible.”
-Die Arbeit zeigt den Übergang von Imagination zu Realisation anhand zweier kontrastierender visueller Elemente:
-einem blauen Kreis voller mathematischer Symbole und einer orangefarbenen Box, die für die Umsetzung der Idee steht.
+An interactive visualization built with **p5.js**, inspired by Alan Turing’s quote:  
+**“Those who can imagine anything, can create the impossible.”**
 
-🔹 Konzept
-Die Visualisierung besteht aus zwei klar getrennten Bereichen:
+This project explores the transition from imagination to realization using color, geometry, and symbolic elements.
 
-1. Blauer Kreis – Imagination & Denkraum
-Der linke Bereich zeigt einen großen blauen Kreis, gefüllt mit Linien, Symbolen und zufälligen Mustern.
-Er repräsentiert:
-kreatives, offenes Denken
-unendliches Potenzial
-chaotische, noch unstrukturierte Ideen
-den mentalen Raum, in dem Vorstellungskraft entsteht
+---
 
-Die mathematischen Symbole (π, Σ, Λ, XOR, HALT?) stehen für Turings wissenschaftliches Umfeld:
-Logik, Berechenbarkeit und formale Systeme.
-Sie zeigen, dass selbst kreative Gedanken oft bereits mathematische Strukturen enthalten.
+## ✨ Features
 
-2. Orangefarbene Box – Realisation & Energie
-Der rechte Bereich zeigt eine klare, geometrische, orangefarbene Box.
-Sie symbolisiert:
-die Umsetzung einer Idee
-Energie, Aktivität und Schöpfung
-Struktur und technische Form
-das „Unmögliche“, das durch Denken möglich wird
-Orange wurde gewählt, weil es für Kreativität, Wärme und Transformation steht — ein starker Kontrast zum ruhigen Blau.
+- Interactive p5.js visualization  
+- Dynamic symbol generation (π, Σ, Λ, XOR, HALT?)  
+- Two‑part conceptual layout:  
+  - **Blue circle** → imagination, chaos, potential  
+  - **Orange box** → structure, energy, realization  
+- Smooth transitions between conceptual states  
+- Clean and minimal UI  
 
-🔹 Farbpsychologie
+---
 
-🔵 Blau
-steht für Intelligenz, Klarheit und Tiefe
-wirkt ruhig und gedanklich
-repräsentiert den mentalen Ursprung der Idee
+## 🎨 Concept
 
-🟧 Orange
-steht für Energie, Aktivität und Umsetzung
-wirkt warm und dynamisch
-repräsentiert die Realisation des Gedachten
-Der Kontrast Blau → Orange visualisiert den Weg von Idee → Umsetzung.
+The visualization represents two mental states:
 
-🔹 Interaktivität
-Die Visualisierung reagiert auf Benutzerinteraktion:
-Der Kreis zeigt die Phase der Imagination.
-Die Box zeigt die Phase der Realisation.
-Der Übergang macht Turings Aussage erfahrbar:
-Aus Vorstellungskraft entsteht Struktur.
+### 🔵 **Imagination (Blue Circle)**
+- Creative, open thinking  
+- Unstructured ideas  
+- Mathematical symbols referencing Turing’s world  
+- Represents the mental space where ideas are born  
 
-🔹 Technologien
-p5.js (2D & 3D Rendering)
-JavaScript
-HTML/CSS
-Creative Coding Methoden
+### 🟧 **Realization (Orange Box)**
+- Structure and execution  
+- Energy and transformation  
+- Technical form and implementation  
+- Represents turning imagination into reality  
+
+The contrast **Blue → Orange** symbolizes the path from idea to creation.
+
+---
+
+## 🛠 Technologies Used
+
+- **p5.js** (2D & 3D rendering)  
+- **JavaScript**  
+- **HTML5**  
+- **CSS3**  
+- Creative Coding techniques  
+
+---
+
+## 🚀 How to Run
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/marcelle237-alpha/Creative-Coding.git
+   Open index.html in your browser.
