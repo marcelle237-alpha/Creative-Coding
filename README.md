@@ -50,4 +50,4 @@ The contrast **Blue → Orange** symbolizes the path from idea to creation.
 ---
 
 ## 🚀 How to Run
-https://github.com/marcelle237-alpha/Creative-Coding.git/index.html
+https://marcelle237-alpha.github.io/Creative-Coding
