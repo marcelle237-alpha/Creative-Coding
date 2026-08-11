@@ -50,8 +50,4 @@ The contrast **Blue → Orange** symbolizes the path from idea to creation.
 ---
 
 ## 🚀 How to Run
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/marcelle237-alpha/Creative-Coding.git
-   Open index.html in your browser.
+https://github.com/marcelle237-alpha/Creative-Coding.git
